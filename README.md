@@ -73,9 +73,7 @@ type Engine interface {
 }
 ```
 
-### URL
-
-_Mmmmmmmmmmmaybe?_
+Note that it's entirely possible the `Engine` interface will be updated to expect (and return) `url.URL` thingies which means the engine itself will need to know about root domains.
 
 ## Tools
 

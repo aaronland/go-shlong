@@ -36,7 +36,11 @@ func main(){
      	log.Fatal(err)
      }
      
-     handler := http.ShlongHandler(db, *root)
+     handler, err := http.ShlongHandler(db, *root)
+
+     if err != nil {
+     	log.Fatal(err)
+     }
 
      endpoint := fmt.Sprintf("%s:%d", *http_host, *http_port)
 
