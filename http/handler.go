@@ -3,7 +3,7 @@ package http
 import (
 	"fmt"
 	"github.com/thisisaaronland/go-shlong"
-	"log"
+	_ "log"
 	gohttp "net/http"
 	"net/url"
 )

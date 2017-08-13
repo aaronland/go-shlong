@@ -77,6 +77,25 @@ type Engine interface {
 
 _Mmmmmmmmmmmaybe?_
 
+## Tools
+
+_It's possible that `shlong` and `shlongd` will be merged in to single tool. Dunno..._
+
+### shlong
+
+_Please write me_
+
+### shlongd
+
+_Please write me_
+
+```
+./bin/shlongd -root http://freshandnew.com
+
+curl 'localhost:8888?url=http://www.freshandnew.org/2017/01/2017-recapping-2016/'
+http://freshandnew.com/6
+```
+
 ## See also
 
 * https://github.com/migurski/shlong

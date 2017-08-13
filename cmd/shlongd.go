@@ -2,6 +2,7 @@ package main
 
 import (
        "flag"
+       "fmt"	
        "github.com/thisisaaronland/go-shlong/engine"
        "github.com/thisisaaronland/go-shlong/http"       
        "log"
@@ -14,6 +15,9 @@ func main(){
      db_engine := flag.String("engine", "buntdb", "...")
      db_dsn := flag.String("dsn", ":memory:", "")
 
+     http_host := flag.String("host", "localhost", "...")
+     http_port := flag.Int("port", 8888, "...")
+     
      root := flag.String("root", "", "")
      
      flag.Parse()
@@ -34,8 +38,8 @@ func main(){
      
      handler := http.ShlongHandler(db, *root)
 
-     endpoint := "localhost:8888"
-     
+     endpoint := fmt.Sprintf("%s:%d", *http_host, *http_port)
+
      err = gohttp.ListenAndServe(endpoint, handler)
 
      if err != nil {
