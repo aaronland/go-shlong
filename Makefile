@@ -4,9 +4,11 @@ prep:
 self:   prep
 	if test -d src/github.com/thisisaaronland/go-shlong; then rm -rf src/github.com/thisisaaronland/go-shlong; fi
 	mkdir -p src/github.com/thisisaaronland/go-shlong
-	cp *.go src/github.com/thisisaaronland/go-shlong/
 	mkdir -p src/github.com/thisisaaronland/go-shlong/engine
+	mkdir -p src/github.com/thisisaaronland/go-shlong/http
+	cp *.go src/github.com/thisisaaronland/go-shlong/
 	cp engine/*.go src/github.com/thisisaaronland/go-shlong/engine/
+	cp http/*.go src/github.com/thisisaaronland/go-shlong/http/
 	cp -r vendor/src/* src/
 
 rmdeps:
@@ -25,7 +27,9 @@ vendor-deps: rmdeps deps
 fmt:
 	go fmt *.go
 	go fmt engine/*.go
+	go fmt http/*.go
 
 bin:    self
 	if test ! -d bin; then mkdir bin; fi
 	@GOPATH=$(shell pwd) go build -o bin/shlong cmd/shlong.go
+	@GOPATH=$(shell pwd) go build -o bin/shlongd cmd/shlongd.go
