@@ -1,7 +1,7 @@
 package shlong
 
 import (
-	"math/rand"
+
 )
 
 type Engine interface {
@@ -11,18 +11,7 @@ type Engine interface {
 	Close()
 }
 
-func GenerateId(length int) (string, error) {
-
-	chars := "qwrtypsdfghjklzxcvbnm0123456789"
-	len_chars := len(chars)
-
-	id := ""
-
-	for len(id) < length {
-
-		i := rand.Intn(len_chars)
-		id = id + string(chars[i])
-	}
-
-	return id, nil
+type Charset interface {
+     Characters() string
+     GenerateId(length int) (string, error)
 }
