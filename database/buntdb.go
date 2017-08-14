@@ -1,19 +1,21 @@
-package engine
+package database
 
 import (
 	"errors"
 	"fmt"
 	"github.com/thisisaaronland/go-shlong"
+	"github.com/thisisaaronland/go-shlong/charset"
 	"github.com/tidwall/buntdb"
 )
 
-type BuntDBEngine struct {
-	shlong.Engine
+type BuntDB struct {
+	shlong.Database
 	db        *buntdb.DB
+	charset   shlong.Charset
 	max_tries int
 }
 
-func NewBuntDBEngine(dsn string) (*BuntDBEngine, error) {
+func NewBuntDB(dsn string) (*BuntDB, error) {
 
 	db, err := buntdb.Open(dsn)
 
@@ -21,19 +23,22 @@ func NewBuntDBEngine(dsn string) (*BuntDBEngine, error) {
 		return nil, err
 	}
 
-	e := BuntDBEngine{
+	charset, err := charset.NewDefaultCharset()
+
+	e := BuntDB{
 		db:        db,
+		charset:   charset,
 		max_tries: 16,
 	}
 
 	return &e, nil
 }
 
-func (e *BuntDBEngine) Close() {
+func (e *BuntDB) Close() {
 	e.db.Close()
 }
 
-func (e *BuntDBEngine) AddURL(long_url string) (string, error) {
+func (e *BuntDB) AddURL(long_url string) (string, error) {
 
 	// log.Println("ADD", long_url)
 
@@ -51,7 +56,7 @@ func (e *BuntDBEngine) AddURL(long_url string) (string, error) {
 
 	for i := 1; i < e.max_tries; i++ {
 
-		id, err := shlong.GenerateId(i)
+		id, err := e.charset.GenerateId(i)
 
 		if err != nil {
 			return "", err
@@ -95,19 +100,19 @@ func (e *BuntDBEngine) AddURL(long_url string) (string, error) {
 	return "", errors.New("Exceeded max tries")
 }
 
-func (e *BuntDBEngine) GetShortURL(long_url string) (string, error) {
+func (e *BuntDB) GetShortURL(long_url string) (string, error) {
 
 	key := fmt.Sprintf("long#%s", long_url)
 	return e.get(key)
 }
 
-func (e *BuntDBEngine) GetLongURL(short_url string) (string, error) {
+func (e *BuntDB) GetLongURL(short_url string) (string, error) {
 
 	key := fmt.Sprintf("short#%s", short_url)
 	return e.get(key)
 }
 
-func (e *BuntDBEngine) set(key string, value string) error {
+func (e *BuntDB) set(key string, value string) error {
 
 	err := e.db.Update(func(tx *buntdb.Tx) error {
 		_, _, err := tx.Set(key, value, nil)
@@ -117,7 +122,7 @@ func (e *BuntDBEngine) set(key string, value string) error {
 	return err
 }
 
-func (e *BuntDBEngine) get(key string) (string, error) {
+func (e *BuntDB) get(key string) (string, error) {
 
 	var value string
 

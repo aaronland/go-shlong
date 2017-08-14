@@ -5,12 +5,12 @@ self:   prep
 	if test -d src/github.com/thisisaaronland/go-shlong; then rm -rf src/github.com/thisisaaronland/go-shlong; fi
 	mkdir -p src/github.com/thisisaaronland/go-shlong
 	mkdir -p src/github.com/thisisaaronland/go-shlong/charset
-	mkdir -p src/github.com/thisisaaronland/go-shlong/engine
+	mkdir -p src/github.com/thisisaaronland/go-shlong/database
 	mkdir -p src/github.com/thisisaaronland/go-shlong/http
 	mkdir -p src/github.com/thisisaaronland/go-shlong/utils
 	cp *.go src/github.com/thisisaaronland/go-shlong/
 	cp charset/*.go src/github.com/thisisaaronland/go-shlong/charset/
-	cp engine/*.go src/github.com/thisisaaronland/go-shlong/engine/
+	cp database/*.go src/github.com/thisisaaronland/go-shlong/database/
 	cp http/*.go src/github.com/thisisaaronland/go-shlong/http/
 	cp utils/*.go src/github.com/thisisaaronland/go-shlong/utils/
 	cp -r vendor/src/* src/
@@ -31,8 +31,10 @@ vendor-deps: rmdeps deps
 
 fmt:
 	go fmt *.go
-	go fmt engine/*.go
+	go fmt charset/*.go
+	go fmt database/*.go
 	go fmt http/*.go
+	go fmt utils/*.go
 
 bin:    self
 	if test ! -d bin; then mkdir bin; fi

@@ -1,14 +1,14 @@
-package engine
+package database
 
 import (
 	"errors"
 	"github.com/thisisaaronland/go-shlong"
 )
 
-func NewDBEngine(name string, dsn string) (shlong.Engine, error) {
+func NewDatabase(name string, dsn string) (shlong.Database, error) {
 
 	if name == "buntdb" {
-		return NewBuntDBEngine(dsn)
+		return NewBuntDB(dsn)
 	} else {
 		return nil, errors.New("Invalid database engine")
 	}

@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-func ShlongHandler(db shlong.Engine, root string) (gohttp.Handler, error) {
+func ShlongHandler(db shlong.Database, root string) (gohttp.Handler, error) {
 
 	fn := func(rsp gohttp.ResponseWriter, req *gohttp.Request) {
 

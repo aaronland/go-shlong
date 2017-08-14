@@ -1,8 +1,8 @@
 package utils
 
 import (
-       "github.com/thisisaaronland/go-shlong"
-       	"math/rand"       
+	"github.com/thisisaaronland/go-shlong"
+	"math/rand"
 )
 
 func RandomStringFromCharset(cs shlong.Charset, length int) (string, error) {
@@ -20,4 +20,3 @@ func RandomStringFromCharset(cs shlong.Charset, length int) (string, error) {
 
 	return id, nil
 }
-

@@ -2,7 +2,7 @@ package main
 
 import (
        "flag"
-       "github.com/thisisaaronland/go-shlong/engine"
+       "github.com/thisisaaronland/go-shlong/database"
        "log"
 )
 
@@ -13,7 +13,7 @@ func main(){
      
      flag.Parse()
 
-     db, err := engine.NewDBEngine(*db_engine, *db_dsn)
+     db, err := database.NewDatabase(*db_engine, *db_dsn)
 
      if err != nil {
      	log.Fatal(err)

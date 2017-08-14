@@ -1,10 +1,6 @@
 package shlong
 
-import (
-
-)
-
-type Engine interface {
+type Database interface {
 	AddURL(long_url string) (string, error)
 	GetLongURL(short_url string) (string, error)
 	GetShortURL(long_url string) (string, error)
@@ -12,6 +8,6 @@ type Engine interface {
 }
 
 type Charset interface {
-     Characters() string
-     GenerateId(length int) (string, error)
+	Characters() string
+	GenerateId(length int) (string, error)
 }
