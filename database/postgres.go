@@ -8,6 +8,20 @@ import (
 	"github.com/thisisaaronland/go-shlong/charset"
 )
 
+/*
+
+CREATE TABLE urls (
+
+    short_url   VARCHAR(255) NOT NULL PRIMARY KEY,
+    long_url    TEXT,
+    shortened   TIMESTAMP,
+    
+    INDEX long_urls (long_url(255))
+
+);
+
+*/
+
 type PostgresDB struct {
 	shlong.Database
 	db        *sql.DB
@@ -76,7 +90,7 @@ func (p *PostgresDB) AddURL(long_url string) (string, error) {
 			continue
 		}
 
-		sql := "INSERT INTO url (long_url, short_url) VALUES ($1, $2) ON CONFLICT(long_url) DO UPDATE SET 1=1"
+		sql := "INSERT INTO url (long_url, short_url) VALUES ($1, $2) ON CONFLICT(short_url) DO UPDATE SET 1=1"
 		_, err = p.db.Exec(sql, long_url, short_url)
 
 		if err != nil {
