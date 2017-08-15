@@ -7,11 +7,13 @@ self:   prep
 	mkdir -p src/github.com/thisisaaronland/go-shlong/charset
 	mkdir -p src/github.com/thisisaaronland/go-shlong/database
 	mkdir -p src/github.com/thisisaaronland/go-shlong/http
+	mkdir -p src/github.com/thisisaaronland/go-shlong/url
 	mkdir -p src/github.com/thisisaaronland/go-shlong/utils
 	cp *.go src/github.com/thisisaaronland/go-shlong/
 	cp charset/*.go src/github.com/thisisaaronland/go-shlong/charset/
 	cp database/*.go src/github.com/thisisaaronland/go-shlong/database/
 	cp http/*.go src/github.com/thisisaaronland/go-shlong/http/
+	cp url/*.go src/github.com/thisisaaronland/go-shlong/url/
 	cp utils/*.go src/github.com/thisisaaronland/go-shlong/utils/
 	cp -r vendor/src/* src/
 
@@ -35,6 +37,7 @@ fmt:
 	go fmt charset/*.go
 	go fmt database/*.go
 	go fmt http/*.go
+	go fmt url/*.go
 	go fmt utils/*.go
 
 bin:    self

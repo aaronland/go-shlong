@@ -12,7 +12,7 @@ func main(){
      db_dsn := flag.String("dsn", ":memory:", "")
      
      flag.Parse()
-
+     
      db, err := database.NewDatabase(*db_engine, *db_dsn)
 
      if err != nil {

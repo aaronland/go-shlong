@@ -11,3 +11,9 @@ type Database interface {
 	GetShortURL(long_url string) (string, error)
 	Close()
 }
+
+type URL interface {
+	Hostname() string
+	Path() string
+	String() string
+}
