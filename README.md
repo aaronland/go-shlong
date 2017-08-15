@@ -33,7 +33,7 @@ func main(){
 
      flag.Parse()
      
-     db, err := engine.NewDatabase("buntdb", "shlong.db")
+     db, err := database.NewDatabase("buntdb", "shlong.db")
 
      if err != nil {
      	log.Fatal(err)
@@ -84,10 +84,19 @@ CREATE INDEX by_long_url ON urls (long_url)
 
 ## Interfaces
 
-### Engine
+### Charset
 
 ```
-type Engine interface {
+type Charset interface {
+	Characters() string
+	GenerateId(length int) (string, error)
+}
+```
+
+### Database
+
+```
+type Database interface {
 	AddURL(long_url string) (string, error)
 	GetLongURL(short_url string) (string, error)
 	GetShortURL(long_url string) (string, error)
@@ -95,7 +104,7 @@ type Engine interface {
 }
 ```
 
-Note that it's entirely possible the `Engine` interface will be updated to expect (and return) `url.URL` thingies which means the engine itself will need to know about root domains.
+Note that it's entirely possible the `Database` interface will be updated to expect (and return) `url.URL` thingies which means the engine itself will need to know about root domains.
 
 ## Tools
 
