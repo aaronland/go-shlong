@@ -58,7 +58,7 @@ Note that `short_url` is just a short _code_ and not a fully qualified domain. S
 
 ## Engines
 
-`go-shlong` has support for a variety of database engines. Currently it only has support for two database engines.
+`go-shlong` is meant to have support for a variety of database engines. Currently it only has support for two database engines.
 
 ### buntdb
 
