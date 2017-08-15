@@ -20,7 +20,7 @@ rmdeps:
 
 deps:
 	@GOPATH=$(shell pwd) go get "github.com/tidwall/buntdb"
-	@GOPATH=$(shell pwd) go get "github.com/whosonfirst/go-ucd"
+	# @GOPATH=$(shell pwd) go get "github.com/whosonfirst/go-ucd"
 
 vendor-deps: rmdeps deps
 	if test ! -d vendor; then mkdir vendor; fi
