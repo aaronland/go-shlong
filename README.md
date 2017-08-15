@@ -21,7 +21,7 @@ package main
 
 import (
        "flag"
-       "github.com/thisisaaronland/go-shlong/engine"
+       "github.com/thisisaaronland/go-shlong/database"
        "log"
 )
 
@@ -29,7 +29,7 @@ func main(){
 
      flag.Parse()
      
-     db, err := engine.NewDBEngine("buntdb", "shlong.db")
+     db, err := database.NewDatabase("buntdb", "shlong.db")
 
      if err != nil {
      	log.Fatal(err)
@@ -62,10 +62,19 @@ _Please write me_
 
 ## Interfaces
 
-### Engine
+### Charset
 
 ```
-type Engine interface {
+type Charset interface {
+	Characters() string
+	GenerateId(length int) (string, error)
+}
+```
+
+### Database
+
+```
+type Database interface {
 	AddURL(long_url string) (string, error)
 	GetLongURL(short_url string) (string, error)
 	GetShortURL(long_url string) (string, error)
@@ -73,7 +82,7 @@ type Engine interface {
 }
 ```
 
-Note that it's entirely possible the `Engine` interface will be updated to expect (and return) `url.URL` thingies which means the engine itself will need to know about root domains.
+Note that it's entirely possible the `Database` interface will be updated to expect (and return) `url.URL` thingies which means the engine itself will need to know about root domains.
 
 ## Tools
 
