@@ -12,7 +12,7 @@ import (
 
 func main(){
 
-     db_engine := flag.String("engine", "buntdb", "...")
+     db_engine := flag.String("database", "buntdb", "...")
      db_dsn := flag.String("dsn", ":memory:", "")
 
      http_host := flag.String("host", "localhost", "...")

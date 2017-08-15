@@ -8,7 +8,7 @@ import (
 
 func main(){
 
-     db_engine := flag.String("engine", "buntdb", "...")
+     db_engine := flag.String("database", "buntdb", "...")
      db_dsn := flag.String("dsn", ":memory:", "")
      
      flag.Parse()

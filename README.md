@@ -69,7 +69,7 @@ _Please write me_
 _Please write me_
 
 ```
-./bin/shlong -engine postgres -dsn "dbname=shlong" http://www.freshandnew.org/2017/01/2017-recapping-2016/
+./bin/shlong -database postgres -dsn "dbname=shlong" http://www.freshandnew.org/2017/01/2017-recapping-2016/
 2017/08/15 01:12:51 http://www.freshandnew.org/2017/01/2017-recapping-2016/ 6
 ```
 

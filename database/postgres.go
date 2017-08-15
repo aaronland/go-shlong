@@ -6,17 +6,8 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/thisisaaronland/go-shlong"
 	"github.com/thisisaaronland/go-shlong/charset"
-	"log"
+	_ "log"
 )
-
-/*
-
-CREATE TABLE urls (short_url VARCHAR(255) PRIMARY KEY, long_url TEXT);
-CREATE INDEX by_long_url ON urls (long_url)
-
-./bin/shlong -engine postgres -dsn "dbname=urls" http://www.freshandnew.org/2017/01/2017-recapping-2016/
-
-*/
 
 type PostgresDB struct {
 	shlong.Database
