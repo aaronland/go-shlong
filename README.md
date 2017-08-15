@@ -12,6 +12,10 @@ make bin
 
 All of this package's dependencies are bundled with the code in the `vendor` directory.
 
+## Important
+
+This is still wet paint. Things may still change. Hopefully not too much but you know...
+
 ## Usage
 
 ### Simple
@@ -21,7 +25,7 @@ package main
 
 import (
        "flag"
-       "github.com/thisisaaronland/go-shlong/engine"
+       "github.com/thisisaaronland/go-shlong/database"
        "log"
 )
 
@@ -29,7 +33,7 @@ func main(){
 
      flag.Parse()
      
-     db, err := engine.NewDBEngine("buntdb", "shlong.db")
+     db, err := engine.NewDatabase("buntdb", "shlong.db")
 
      if err != nil {
      	log.Fatal(err)
@@ -54,11 +58,29 @@ Note that `short_url` is just a short _code_ and not a fully qualified domain. S
 
 ## Engines
 
-`go-shlong` has support for a variety of database engines. Currently it only has support for one database engine.
+`go-shlong` has support for a variety of database engines. Currently it only has support for two database engines.
 
 ### buntdb
 
 _Please write me_
+
+### postgres
+
+_Please write me_
+
+```
+./bin/shlong -engine postgres -dsn "dbname=shlong" http://www.freshandnew.org/2017/01/2017-recapping-2016/
+2017/08/15 01:12:51 http://www.freshandnew.org/2017/01/2017-recapping-2016/ 6
+```
+
+#### database schema
+
+As of this writing you are responsible for setting up your own database tables.
+
+```
+CREATE TABLE urls (short_url VARCHAR(255) PRIMARY KEY, long_url TEXT);
+CREATE INDEX by_long_url ON urls (long_url)
+```
 
 ## Interfaces
 

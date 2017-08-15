@@ -9,6 +9,8 @@ func NewDatabase(name string, dsn string) (shlong.Database, error) {
 
 	if name == "buntdb" {
 		return NewBuntDB(dsn)
+	} else if name == "postgres" {
+		return NewPostgresDB(dsn)
 	} else {
 		return nil, errors.New("Invalid database engine")
 	}

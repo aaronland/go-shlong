@@ -6,19 +6,15 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/thisisaaronland/go-shlong"
 	"github.com/thisisaaronland/go-shlong/charset"
+	"log"
 )
 
 /*
 
-CREATE TABLE urls (
+CREATE TABLE urls (short_url VARCHAR(255) PRIMARY KEY, long_url TEXT);
+CREATE INDEX by_long_url ON urls (long_url)
 
-    short_url   VARCHAR(255) NOT NULL PRIMARY KEY,
-    long_url    TEXT,
-    shortened   TIMESTAMP,
-    
-    INDEX long_urls (long_url(255))
-
-);
+./bin/shlong -engine postgres -dsn "dbname=urls" http://www.freshandnew.org/2017/01/2017-recapping-2016/
 
 */
 
@@ -90,8 +86,8 @@ func (p *PostgresDB) AddURL(long_url string) (string, error) {
 			continue
 		}
 
-		sql := "INSERT INTO url (long_url, short_url) VALUES ($1, $2) ON CONFLICT(short_url) DO UPDATE SET 1=1"
-		_, err = p.db.Exec(sql, long_url, short_url)
+		sql := "INSERT INTO urls (long_url, short_url) VALUES ($1, $2) ON CONFLICT(short_url) DO UPDATE SET long_url=$3"
+		_, err = p.db.Exec(sql, long_url, short_url, long_url)
 
 		if err != nil {
 			return "", err
@@ -112,10 +108,15 @@ func (p *PostgresDB) GetShortURL(long_url string) (string, error) {
 	err := row.Scan(&short_url)
 
 	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return "", nil
+		}
+
 		return "", err
 	}
 
 	return short_url, nil
+
 }
 
 func (p *PostgresDB) GetLongURL(short_url string) (string, error) {
@@ -127,6 +128,10 @@ func (p *PostgresDB) GetLongURL(short_url string) (string, error) {
 	err := row.Scan(&long_url)
 
 	if err != nil {
+
+		if err.Error() == "sql: no rows in result set" {
+			return "", nil
+		}
 		return "", err
 	}
 
