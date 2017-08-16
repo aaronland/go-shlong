@@ -1,11 +1,16 @@
 package url
 
+import (
+       "github.com/thisisaaronland/go-shlong"
+       gourl "net/url"
+)
+
 type LongURL struct {
-	URL
-	u gourl.URL
+	shlong.URL
+	u *gourl.URL
 }
 
-func NewLongURL(raw string) (LongURL, error) {
+func NewLongURLFromString(raw string) (*LongURL, error) {
 
 	u, err := gourl.Parse(raw)
 
@@ -17,17 +22,17 @@ func NewLongURL(raw string) (LongURL, error) {
 		u: u,
 	}
 
-	return lu, nil
+	return &lu, nil
 }
 
-func (lu LongURL) Hostname() string {
+func (lu *LongURL) Hostname() string {
 	return lu.u.Host
 }
 
-func (lu LongURL) Path() string {
+func (lu *LongURL) Path() string {
 	return lu.u.Path
 }
 
-func (lu LongURL) String() string {
+func (lu *LongURL) String() string {
 	return lu.u.String()
 }

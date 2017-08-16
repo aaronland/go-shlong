@@ -1,29 +1,34 @@
 package url
 
+import (
+       "fmt"
+       "github.com/thisisaaronland/go-shlong"
+)
+
 type ShortURL struct {
-	URL
+	shlong.URL
 	host string
 	path string
 }
 
-func NewShortURL(path string) (ShortURL, error) {
+func NewShortURLFromString(path string) (*ShortURL, error) {
 
 	su := ShortURL{
 		host: "shlong",
 		path: path,
 	}
 
-	return su
+	return &su, nil
 }
 
-func (su ShortURL) Hostname() string {
+func (su *ShortURL) Hostname() string {
 	return su.host
 }
 
-func (su ShortURL) Path() string {
+func (su *ShortURL) Path() string {
 	return su.path
 }
 
-func (su ShortURL) String() string {
-	return fmt.Sprintf("urn:%s:%s", su.Host(), su.Path())
+func (su *ShortURL) String() string {
+	return fmt.Sprintf("urn:%s:%s", su.Hostname(), su.Path())
 }

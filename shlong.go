@@ -6,9 +6,9 @@ type Charset interface {
 }
 
 type Database interface {
-	AddURL(long_url string) (string, error)
-	GetLongURL(short_url string) (string, error)
-	GetShortURL(long_url string) (string, error)
+	AddURL(long_url URL) (URL, error)
+	GetLongURL(short_url URL) (URL, error)
+	GetShortURL(long_url URL) (URL, error)
 	Close()
 }
 

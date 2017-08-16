@@ -3,6 +3,7 @@ package main
 import (
        "flag"
        "github.com/thisisaaronland/go-shlong/database"
+       "github.com/thisisaaronland/go-shlong/url"       
        "log"
 )
 
@@ -21,8 +22,14 @@ func main(){
 
      defer db.Close()
      
-     for _, long_url := range flag.Args() {
+     for _, str_url := range flag.Args() {
 
+     	long_url, err := url.NewLongURLFromString(str_url)
+
+	if err != nil {
+	   log.Fatal(err)
+	}
+	
      	short_url, err := db.AddURL(long_url)
 
 	if err != nil {

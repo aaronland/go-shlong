@@ -3,9 +3,10 @@ package http
 import (
 	"fmt"
 	"github.com/thisisaaronland/go-shlong"
+	"github.com/thisisaaronland/go-shlong/url"	
 	_ "log"
 	gohttp "net/http"
-	"net/url"
+	gourl "net/url"
 )
 
 func ShlongHandler(db shlong.Database, root string) (gohttp.Handler, error) {
@@ -15,28 +16,28 @@ func ShlongHandler(db shlong.Database, root string) (gohttp.Handler, error) {
 		query := req.URL.Query()
 		raw := query.Get("url")
 
-		u, err := url.ParseRequestURI(raw)
+		long_url, err := url.NewLongURLFromString(raw)
 
 		if err != nil {
 			gohttp.Error(rsp, err.Error(), gohttp.StatusBadRequest)
 			return
 		}
 
-		short, err := db.AddURL(u.String())
+		short_url, err := db.AddURL(long_url)
 
 		if err != nil {
 			gohttp.Error(rsp, err.Error(), gohttp.StatusBadRequest)
 			return
 		}
 
-		root_url, err := url.Parse(root)
+		root_url, err := gourl.Parse(root)
 
 		if err != nil {
 			gohttp.Error(rsp, err.Error(), gohttp.StatusBadRequest)
 			return
 		}
 
-		root_url.Path = short
+		root_url.Path = short_url.Path()
 
 		rsp.Header().Set("Content-Type", "text/plain")
 

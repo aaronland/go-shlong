@@ -6,6 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/thisisaaronland/go-shlong"
 	"github.com/thisisaaronland/go-shlong/charset"
+	"github.com/thisisaaronland/go-shlong/url"	
 	_ "log"
 )
 
@@ -45,15 +46,15 @@ func (p *PostgresDB) Close() {
 	p.db.Close()
 }
 
-func (p *PostgresDB) AddURL(long_url string) (string, error) {
+func (p *PostgresDB) AddURL(long_url shlong.URL) (shlong.URL, error) {
 
 	short, err := p.GetShortURL(long_url)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	if short != "" {
+	if short != nil {
 		return short, nil
 	}
 
@@ -62,55 +63,64 @@ func (p *PostgresDB) AddURL(long_url string) (string, error) {
 		id, err := p.charset.GenerateId(i)
 
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 
-		short_url := id
+		short_url, err := url.NewShortURLFromString(id)
+
+		if err != nil {
+			return nil, err
+		}
 
 		long, err := p.GetLongURL(short_url)
 
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 
-		if long != "" {
+		if long != nil {
 			continue
 		}
 
+		lu := long_url.String()
+		su := short_url.String()
+		
 		sql := "INSERT INTO urls (long_url, short_url) VALUES ($1, $2) ON CONFLICT(short_url) DO UPDATE SET long_url=$3"
-		_, err = p.db.Exec(sql, long_url, short_url, long_url)
+		_, err = p.db.Exec(sql, lu, su, lu)
 
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 
 		return short_url, nil
 	}
 
-	return "", errors.New("Exceeded max tries")
+	return nil, errors.New("Exceeded max tries")
 }
 
-func (p *PostgresDB) GetShortURL(long_url string) (string, error) {
+func (p *PostgresDB) GetShortURL(long_url shlong.URL) (shlong.URL, error) {
 
+     	lu := long_url.String()
+	
 	sql := "SELECT short_url FROM urls WHERE long_url = $1"
-	row := p.db.QueryRow(sql, long_url)
+	row := p.db.QueryRow(sql, lu)
 
 	var short_url string
 	err := row.Scan(&short_url)
 
 	if err != nil {
 		if err.Error() == "sql: no rows in result set" {
-			return "", nil
+			return nil, nil
 		}
 
-		return "", err
+		return nil, err
 	}
 
-	return short_url, nil
+	return url.NewShortURLFromString(short_url)
 
 }
 
-func (p *PostgresDB) GetLongURL(short_url string) (string, error) {
+func (p *PostgresDB) GetLongURL(short_url shlong.URL) (shlong.URL, error) {
 
 	sql := "SELECT long_url FROM urls WHERE short_url = $1"
 	row := p.db.QueryRow(sql, short_url)
@@ -121,10 +131,11 @@ func (p *PostgresDB) GetLongURL(short_url string) (string, error) {
 	if err != nil {
 
 		if err.Error() == "sql: no rows in result set" {
-			return "", nil
+			return nil, nil
 		}
-		return "", err
+		
+		return nil, err
 	}
 
-	return long_url, nil
+	return url.NewLongURLFromString(long_url)
 }
