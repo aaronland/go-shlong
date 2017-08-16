@@ -1,8 +1,8 @@
 package url
 
 import (
-       "fmt"
-       "github.com/thisisaaronland/go-shlong"
+	"fmt"
+	"github.com/thisisaaronland/go-shlong"
 )
 
 type ShortURL struct {

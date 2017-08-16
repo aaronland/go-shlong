@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/thisisaaronland/go-shlong"
 	"github.com/thisisaaronland/go-shlong/charset"
-	"github.com/thisisaaronland/go-shlong/url"	
+	"github.com/thisisaaronland/go-shlong/url"
 	"github.com/tidwall/buntdb"
 )
 
@@ -68,9 +68,9 @@ func (e *BuntDB) AddURL(long_url shlong.URL) (shlong.URL, error) {
 		short_url, err := url.NewShortURLFromString(id)
 
 		if err != nil {
-		   return nil, err
+			return nil, err
 		}
-		
+
 		long, err := e.GetLongURL(short_url)
 
 		if err != nil && err != buntdb.ErrNotFound {
@@ -111,7 +111,7 @@ func (e *BuntDB) GetShortURL(lu shlong.URL) (shlong.URL, error) {
 	su, err := e.get(key)
 
 	if err != nil {
-	   return nil, err
+		return nil, err
 	}
 
 	return url.NewShortURLFromString(su)
@@ -123,7 +123,7 @@ func (e *BuntDB) GetLongURL(su shlong.URL) (shlong.URL, error) {
 	lu, err := e.get(key)
 
 	if err != nil {
-	   return nil, err
+		return nil, err
 	}
 
 	return url.NewLongURLFromString(lu)

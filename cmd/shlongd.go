@@ -36,7 +36,7 @@ func main(){
      	log.Fatal(err)
      }
      
-     handler, err := http.ShlongHandler(db, *root)
+     handler, err := http.ShortToLongHandler(db, *root)
 
      if err != nil {
      	log.Fatal(err)

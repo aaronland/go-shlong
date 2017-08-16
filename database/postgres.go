@@ -6,7 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/thisisaaronland/go-shlong"
 	"github.com/thisisaaronland/go-shlong/charset"
-	"github.com/thisisaaronland/go-shlong/url"	
+	"github.com/thisisaaronland/go-shlong/url"
 	_ "log"
 )
 
@@ -84,7 +84,7 @@ func (p *PostgresDB) AddURL(long_url shlong.URL) (shlong.URL, error) {
 
 		lu := long_url.String()
 		su := short_url.String()
-		
+
 		sql := "INSERT INTO urls (long_url, short_url) VALUES ($1, $2) ON CONFLICT(short_url) DO UPDATE SET long_url=$3"
 		_, err = p.db.Exec(sql, lu, su, lu)
 
@@ -100,8 +100,8 @@ func (p *PostgresDB) AddURL(long_url shlong.URL) (shlong.URL, error) {
 
 func (p *PostgresDB) GetShortURL(long_url shlong.URL) (shlong.URL, error) {
 
-     	lu := long_url.String()
-	
+	lu := long_url.String()
+
 	sql := "SELECT short_url FROM urls WHERE long_url = $1"
 	row := p.db.QueryRow(sql, lu)
 
@@ -133,7 +133,7 @@ func (p *PostgresDB) GetLongURL(short_url shlong.URL) (shlong.URL, error) {
 		if err.Error() == "sql: no rows in result set" {
 			return nil, nil
 		}
-		
+
 		return nil, err
 	}
 

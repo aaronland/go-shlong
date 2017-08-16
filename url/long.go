@@ -1,8 +1,8 @@
 package url
 
 import (
-       "github.com/thisisaaronland/go-shlong"
-       gourl "net/url"
+	"github.com/thisisaaronland/go-shlong"
+	gourl "net/url"
 )
 
 type LongURL struct {
